@@ -36,7 +36,6 @@ app.use(session({
 
 // DB Connections
 connectDB();       // MongoDB
-connectMySQL();    // MySQL
 
 // Routes
 app.get('/', (req, res) => {

@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://algo-fast-frontend.vercel.app'],
   credentials: true
 }));
 app.use(express.json());
@@ -54,7 +54,7 @@ const swaggerOptions = {
       version: '1.0.0',
       description: 'Danh sách các API backend đang hoạt động'
     },
-    servers: [{ url: 'http://localhost:5000' }]
+    servers: [{ url: 'https://algofast-backend.onrender.com' }]
   },
   apis: ['./src/routes/*.js'],
 };

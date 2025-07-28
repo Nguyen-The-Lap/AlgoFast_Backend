@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/mongo.js';
-import { connectDB as connectMySQL } from './config/mysql.js';
 import routes from './routes/index.js';
 import authRouter from './routes/auth.js';
 import cookieParser from 'cookie-parser';

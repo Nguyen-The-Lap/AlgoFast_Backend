@@ -1,5 +1,4 @@
 import express from 'express';
-import { getConnection } from '../config/mysql.js';
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 

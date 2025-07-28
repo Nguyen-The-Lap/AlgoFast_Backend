@@ -59,7 +59,117 @@ const swaggerOptions = {
   apis: ['./src/routes/*.js'],
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss:  `
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #121212 !important;
+      color: #e0e0e0 !important;
+      font-family: 'Inter', sans-serif !important;
+    }
+
+    .swagger-ui .topbar {
+      background-color: #0d0d0d !important;
+      border-bottom: 1px solid #333;
+    }
+
+    .swagger-ui .topbar a {
+      color: #fff !important;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .swagger-ui .info {
+      margin: 20px 0;
+    }
+
+    .swagger-ui .info hgroup.main {
+      border-left: 5px solid #00BFFF;
+      padding-left: 1rem;
+      background: #1e1e1e;
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+
+    .swagger-ui .info hgroup.main h2 {
+      color: #00BFFF;
+      font-size: 2rem;
+    }
+
+    .swagger-ui .opblock-summary {
+      background-color: #1e1e1e !important;
+      border-left: 5px solid #00BFFF !important;
+      border-radius: 5px;
+    }
+
+    .swagger-ui .opblock-summary-method {
+      font-weight: bold;
+    }
+
+    .swagger-ui .responses-wrapper, .swagger-ui .opblock-section-header {
+      background-color: #1a1a1a !important;
+      border-radius: 0.25rem;
+    }
+
+    .swagger-ui .opblock-body {
+      background-color: #202020 !important;
+      border-radius: 0.25rem;
+    }
+
+    .swagger-ui .response-col_description__inner {
+      color: #ccc !important;
+    }
+
+    .swagger-ui .scheme-container {
+      background: #111;
+      border-radius: 0.25rem;
+    }
+
+    .swagger-ui .btn {
+      background: #00BFFF !important;
+      color: #000 !important;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .swagger-ui .btn:hover {
+      background: #009ACD !important;
+    }
+
+    .swagger-ui .parameters-col_description,
+    .swagger-ui .parameter__name,
+    .swagger-ui .parameter__type {
+      color: #ccc !important;
+    }
+
+    .swagger-ui .parameter__name.required {
+      color: #ff5252 !important;
+    }
+
+    .swagger-ui .tab li button {
+      background: #222;
+      color: #fff;
+    }
+
+    .swagger-ui .tab li button.active {
+      background: #00BFFF;
+      color: #000;
+    }
+
+    .swagger-ui .markdown code {
+      background: #333 !important;
+      color: #00e676 !important;
+    }
+  `,
+  customSiteTitle: "AlgoFast API Docs",
+  swaggerOptions: {
+    docExpansion: "none",
+    displayRequestDuration: true
+  }
+}));
 
 // Error handling
 app.use((err, req, res, next) => {

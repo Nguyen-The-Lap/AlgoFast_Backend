@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: 'https://algo-fast-frontend.vercel.app',
+  origin: 'https://your-frontend.vercel.app',
   credentials: true
 }));
 

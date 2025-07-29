@@ -8,7 +8,6 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
-import submissionRouter from './routes/submission.js';
 import exerciseRouter from './routes/exercise.js';
 
 dotenv.config();
@@ -42,7 +41,6 @@ app.get('/', (req, res) => {
 });
 app.use('/api', routes);
 app.use('/api/auth', authRouter);
-app.use('/api/submission', submissionRouter);
 app.use('/api/exercise', exerciseRouter);
 
 // Swagger

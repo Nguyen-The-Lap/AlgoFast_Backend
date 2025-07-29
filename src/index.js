@@ -38,7 +38,7 @@ app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(session({
-  secret: 'your_secret',
+  secret: 'a2F3Lmn91qweXz7lPQ9vbn5tuERo',
   resave: false,
   saveUninitialized: false,
   cookie: {

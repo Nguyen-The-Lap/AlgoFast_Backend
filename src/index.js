@@ -43,7 +43,7 @@ app.use(session({
   cookie: {
     secure: true, // true in production with HTTPS
     httpOnly: true,
-    sameSite: 'none'
+    sameSite: 'None'
   }
 }));
 

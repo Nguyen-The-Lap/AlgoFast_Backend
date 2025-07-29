@@ -32,6 +32,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
+app.options('*', cors());
 
 app.use(express.json());
 app.use(cookieParser());
@@ -40,9 +41,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // true in production with HTTPS
+    secure: true, // true in production with HTTPS
     httpOnly: true,
-    sameSite: 'lax'
+    sameSite: 'none'
   }
 }));
 

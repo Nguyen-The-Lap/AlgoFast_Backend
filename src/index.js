@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://algo-fast-frontend.vercel.app'],
+  origin: ['http://localhost:3000', 'https://algofast-frontend.onrender.com'],
   credentials: true
 }));
 app.use(express.json());

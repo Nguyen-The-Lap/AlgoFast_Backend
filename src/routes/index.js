@@ -26,6 +26,11 @@ router.use('/leaderboard', leaderboardRouter);
 // Chỉ admin mới được tạo bài học
 router.post('/lessons', requireRole('admin'), createLesson);
 
+router.get('/', (req, res) => {
+  res.send('API root is working!');
+});
+
+
 async function requireAdmin(req, res, next) {
   try {
     const user = await User.findById(req.session.userId);

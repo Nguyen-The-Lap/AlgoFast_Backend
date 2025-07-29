@@ -16,11 +16,20 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://algofast-frontend.onrender.com',
-    'https://algo-fast-frontend.vercel.app'  
-  ],
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://algofast-frontend.onrender.com',
+      'https://algo-fast-frontend.vercel.app'  // ⬅ Đã dùng trên frontend
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
@@ -59,7 +68,7 @@ const swaggerOptions = {
     },
     servers: [{ url: 'https://algofast-backend.onrender.com' }]
   },
-  apis: ['./src/routes/*.js'],
+  apis: ['./routes/*.js'],
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {

@@ -6,24 +6,39 @@ import User from '../models/User.js';
 const router = express.Router();
 export function requireRole(role) {
   return async (req, res, next) => {
-    if (!req.session.userId) {
-      return res.status(401).json({ message: 'Chưa đăng nhập' });
+    // Remove session check, rely on userId in request (e.g., from JWT or header)
+    const userId = req.session?.userId || req.userId || req.headers['x-user-id'];
+    if (!userId) {
+      return res.status(401).json({ message: 'Chưa đăng nhập hoặc phiên đã hết hạn' });
     }
 
-    const user = await User.findById(req.session.userId);
-    if (!user || user.role !== role) {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(401).json({ message: 'User không tồn tại hoặc phiên đã hết hạn' });
+    }
+    if (user.role !== role) {
       return res.status(403).json({ message: 'Không có quyền truy cập' });
     }
 
     next();
   };
 }
+
 // Middleware: kiểm tra đã đăng nhập chưa
 export function requireLogin(req, res, next) {
-  if (!req.session.userId) {
-    return res.status(401).json({ message: 'Chưa đăng nhập' });
+  // Remove session check, rely on userId in request (e.g., from JWT or header)
+  const userId = req.session?.userId || req.userId || req.headers['x-user-id'];
+  if (!userId) {
+    return res.status(401).json({ message: 'Chưa đăng nhập hoặc phiên đã hết hạn' });
   }
-  next();
+  User.findById(userId)
+    .then(user => {
+      if (!user) {
+        return res.status(401).json({ message: 'User không tồn tại hoặc phiên đã hết hạn' });
+      }
+      next();
+    })
+    .catch(() => res.status(500).json({ message: 'Lỗi server' }));
 }
 
 // Đăng ký

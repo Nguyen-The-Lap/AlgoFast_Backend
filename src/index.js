@@ -82,7 +82,7 @@ const swaggerOptions = {
     },
     servers: [{ url: 'https://algofast-backend.onrender.com' }]
   },
-  apis: ['./routes/*.js'],
+  apis: ['./src/routes/*.js'],
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {

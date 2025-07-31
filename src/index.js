@@ -54,7 +54,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: true,            // Must be true for HTTPS
-    httpOnly: true,
+    httpOnly: false,
     sameSite: 'None'         // Required for cross-domain cookies
   }
 }));

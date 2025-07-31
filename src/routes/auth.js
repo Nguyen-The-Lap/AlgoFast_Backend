@@ -1,72 +1,14 @@
-// routes/auth.js
-
 /**
  * @swagger
  * tags:
  *   name: Auth
  *   description: Authentication APIs
  */
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import User from '../models/User.js';
 
-/**
- * @swagger
- * /api/auth/register:
- *   post:
- *     summary: Đăng ký người dùng
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - username
- *               - email
- *               - password
- *             properties:
- *               username:
- *                 type: string
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       201:
- *         description: Đăng ký thành công
- *       400:
- *         description: Username hoặc email đã tồn tại
- *       500:
- *         description: Lỗi server
- */
-
-/**
- * @swagger
- * /api/auth/login:
- *   post:
- *     summary: Đăng nhập người dùng
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - email
- *               - password
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Đăng nhập thành công
- *       400:
- *         description: Email hoặc mật khẩu không đúng
- *       500:
- *         description: Lỗi server
- */
+const router = express.Router();
 
 /**
  * @swagger
@@ -80,25 +22,6 @@
  *       401:
  *         description: Chưa đăng nhập
  */
-
-/**
- * @swagger
- * /api/auth/logout:
- *   post:
- *     summary: Đăng xuất
- *     tags: [Auth]
- *     responses:
- *       200:
- *         description: Đăng xuất thành công
- *       500:
- *         description: Lỗi khi đăng xuất
- */
-
-import express from 'express';
-import bcrypt from 'bcryptjs';
-import User from '../models/User.js';
-
-const router = express.Router();
 export function requireRole(role) {
   return async (req, res, next) => {
     // Remove session check, rely on userId in request (e.g., from JWT or header)
@@ -136,6 +59,38 @@ export function requireLogin(req, res, next) {
     .catch(() => res.status(500).json({ message: 'Lỗi server' }));
 }
 
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Đăng ký người dùng
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - email
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Đăng ký thành công
+ *       400:
+ *         description: Username hoặc email đã tồn tại
+ *       500:
+ *         description: Lỗi server
+ */
+
 // Đăng ký
 router.post('/register', async (req, res) => {
   try {
@@ -168,6 +123,34 @@ router.post('/register', async (req, res) => {
 });
 
 // Đăng nhập
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Đăng nhập người dùng
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Đăng nhập thành công
+ *       400:
+ *         description: Email hoặc mật khẩu không đúng
+ *       500:
+ *         description: Lỗi server
+ */
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -206,6 +189,18 @@ router.get('/me', requireLogin, async (req, res) => {
 });
 
 // Đăng xuất
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Đăng xuất
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Đăng xuất thành công
+ *       500:
+ *         description: Lỗi khi đăng xuất
+ */
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).json({ message: 'Lỗi khi đăng xuất' });

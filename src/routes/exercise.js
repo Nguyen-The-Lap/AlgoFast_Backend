@@ -1,3 +1,25 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Exercise
+ *   description: Quản lý bài tập
+ */
+
+/**
+ * @swagger
+ * /api/exercise:
+ *   get:
+ *     summary: Lấy danh sách bài tập
+ *     tags: [Exercise]
+ *     responses:
+ *       200:
+ *         description: Thành công
+ *       500:
+ *         description: Lỗi server
+ */
+
+
+
 import express from 'express';
 import Exercise from '../models/Exercise.js';
 import Submission from '../models/Submission.js';

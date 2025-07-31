@@ -1,4 +1,99 @@
 // routes/auth.js
+
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Authentication APIs
+ */
+
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Đăng ký người dùng
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - email
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Đăng ký thành công
+ *       400:
+ *         description: Username hoặc email đã tồn tại
+ *       500:
+ *         description: Lỗi server
+ */
+
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Đăng nhập người dùng
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Đăng nhập thành công
+ *       400:
+ *         description: Email hoặc mật khẩu không đúng
+ *       500:
+ *         description: Lỗi server
+ */
+
+/**
+ * @swagger
+ * /api/auth/me:
+ *   get:
+ *     summary: Lấy thông tin người dùng hiện tại
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Trả về thông tin user
+ *       401:
+ *         description: Chưa đăng nhập
+ */
+
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Đăng xuất
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Đăng xuất thành công
+ *       500:
+ *         description: Lỗi khi đăng xuất
+ */
+
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/User.js';

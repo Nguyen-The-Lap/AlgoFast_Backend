@@ -180,9 +180,8 @@ router.post('/login', async (req, res) => {
 // Lấy thông tin user hiện tại
 router.get('/me', async (req, res) => {
   const email = req.headers['x-email'];
-  const password = req.headers['x-password'];
 
-  if (!email || !password) {
+  if (!email) {
     return res.status(400).json({ message: 'Thiếu email hoặc mật khẩu' });
   }
 

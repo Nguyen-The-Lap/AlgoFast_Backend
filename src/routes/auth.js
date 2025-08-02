@@ -42,22 +42,7 @@ export function requireRole(role) {
   };
 }
 
-// Middleware: kiểm tra đã đăng nhập chưa
-export function requireLogin(req, res, next) {
-  // Remove session check, rely on userId in request (e.g., from JWT or header)
-  const userId = req.session?.userId || req.userId || req.headers['x-user-id'];
-  if (!userId) {
-    return res.status(401).json({ message: 'Chưa đăng nhập hoặc phiên đã hết hạn' });
-  }
-  User.findById(userId)
-    .then(user => {
-      if (!user) {
-        return res.status(401).json({ message: 'User không tồn tại hoặc phiên đã hết hạn' });
-      }
-      next();
-    })
-    .catch(() => res.status(500).json({ message: 'Lỗi server' }));
-}
+
 
 /**
  * @swagger
@@ -154,7 +139,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email }).select('-password');
+    const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'Email hoặc mật khẩu không đúng' });
 
     const isMatch = await bcrypt.compare(password, user.password);

@@ -179,7 +179,12 @@ router.post('/login', async (req, res) => {
 
 // Lấy thông tin user hiện tại
 router.get('/me', async (req, res) => {
-  const email = req.headers['x-email'] || req.body?.email;
+  const email = req.headers['x-email'];
+  const password = req.headers['x-password'];
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Thiếu email hoặc mật khẩu' });
+  }
 
   try {
     const user = await User.findOne({ email });
@@ -187,6 +192,10 @@ router.get('/me', async (req, res) => {
       return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
     }
 
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
+    }
 
     const { password: _, ...userData } = user.toObject();
     res.json(userData);
@@ -194,6 +203,7 @@ router.get('/me', async (req, res) => {
     res.status(500).json({ message: 'Lỗi server' });
   }
 });
+
 
 
 // Đăng xuất

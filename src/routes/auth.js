@@ -180,7 +180,7 @@ router.post('/login', async (req, res) => {
 // Lấy thông tin user hiện tại
 router.get('/me', requireLogin, async (req, res) => {
   try {
-    const user = await User.findById(req.session.userId).select('-password');
+    const user = await User.findOne({ email }).select('-password');
     if (!user) return res.status(404).json({ message: 'User không tồn tại' });
     res.json(user);
   } catch {

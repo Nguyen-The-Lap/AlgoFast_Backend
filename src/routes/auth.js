@@ -178,15 +178,28 @@ router.post('/login', async (req, res) => {
 });
 
 // Lấy thông tin user hiện tại
-router.get('/me', requireLogin, async (req, res) => {
+router.get('/me', async (req, res) => {
+  const email = req.headers['x-email'] || req.body?.email;
+  const password = req.headers['x-password'] || req.body?.password;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Thiếu email hoặc mật khẩu' });
+  }
+
   try {
-    const user = await User.findOne({ email }).select('-password');
-    if (!user) return res.status(404).json({ message: 'User không tồn tại' });
-    res.json(user);
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
+    }
+
+
+    const { password: _, ...userData } = user.toObject();
+    res.json(userData);
   } catch {
     res.status(500).json({ message: 'Lỗi server' });
   }
 });
+
 
 // Đăng xuất
 /**
